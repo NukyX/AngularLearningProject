@@ -1,0 +1,75 @@
+<div>
+  <div class="row">
+    <div class="col-11 text-center ">
+      <p>Your Todo's</p>
+    </div>
+    <div class="col-1 mb-4">
+
+      <button class="btn btn-secondary" data-bs-target="#newTodoModal" data-bs-toggle="modal" type="button">
+        <i class="bi bi-plus-lg"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngFor="let todo of currentTodos$ | async" class="card mb-2">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-2 bg-info">
+            {{todo.priority}}
+          </div>
+          <div class="col-8">
+            {{todo.description}}
+          </div>
+          <div class="col-1 ">
+            <button (click)="deleteTodo(todo)" class="btn"><i class="bi bi-trash"></i></button>
+          </div>
+          <div class="col-1">
+            <button (click)="completeTodo(todo)" class="btn"><i class="bi bi-check-lg"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="newTodoModalLabel" class="modal fade" id="newTodoModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newTodoModalLabel">Add new todo</h5>
+        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="row">
+            <form (ngSubmit)="addTodo()" [formGroup]="newTodoFrom">
+              <div class="col-12 mb-2">
+                <input
+                  class="form-control"
+                  formControlName="todoDescription"
+                  id="todoDescription"
+                  placeholder="Finish this project..."
+                  type="text">
+              </div>
+              <div class="col-12">
+                <select class="form-select" formControlName="todoPriority"
+                >
+                  <option selected>Select priority</option>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Abort</button>
+        <button (click)="addTodo()" [disabled]="!newTodoFrom.valid" class="btn btn-primary" type="button">Save todo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
