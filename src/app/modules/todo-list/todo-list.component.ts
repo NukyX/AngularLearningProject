@@ -4,7 +4,6 @@ import {TodoService} from "../../core/services/todo/todo.service";
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Store} from "@ngxs/store";
 import {Observable} from "rxjs";
-import {TodosState} from "../../core/state/todos/todos.state";
 
 
 @Component({
@@ -23,11 +22,11 @@ export class TodoListComponent implements OnInit {
 
 
   constructor(private todoService: TodoService, private store: Store) {
-    this.currentTodos$ = this.store.select(TodosState.currentTodos)
+    this.currentTodos$ = this.todoService.getTodosState().pipe();
   }
 
   ngOnInit(): void {
-    //this.store.dispatch(new TodoActions.Add({id: "Please work", description: "Test", priority: "Low"}))
+    this.todoService.getTodos()
   }
 
   addTodo(): void {

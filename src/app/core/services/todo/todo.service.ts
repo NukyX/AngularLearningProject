@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Store} from "@ngxs/store";
 import {TodoActions} from "../../state/todos/todos.actions";
+import {TodosState} from "../../state/todos/todos.state";
 
 
 @Injectable({
@@ -12,16 +13,22 @@ import {TodoActions} from "../../state/todos/todos.actions";
 })
 export class TodoService {
 
-
+  currentTodoState: Observable<Todo[]>
   todosUrl: string = "/api/todos"
   completedTodosUrl: string = "/api/completedTodos"
 
 
   constructor(private http: HttpClient, private store: Store) {
+    this.currentTodoState = this.store.select(TodosState.currentTodos)
+
   }
 
-  getTodos(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(this.todosUrl);
+  getTodosState(): Observable<Todo[]> {
+    return this.currentTodoState
+  }
+
+  getTodos(): void {
+    this.http.get<Todo[]>(this.todosUrl).subscribe((todos) => this.store.dispatch(new TodoActions.SetCurrentTodos(todos)))
   }
 
   addTodo(todoDescription: string, todoPriority: string) {

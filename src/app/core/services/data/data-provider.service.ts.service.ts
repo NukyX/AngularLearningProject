@@ -10,7 +10,11 @@ export class DataService implements InMemoryDbService {
   }
 
   createDb() {
-    const todos: Todo[] = [];
+    const todos: Todo[] = [{
+      id: "372323121",
+      priority: "Low",
+      description: "Task from DB"
+    }];
     const completedTodos: Todo[] = []
     return {todos, completedTodos}
   }

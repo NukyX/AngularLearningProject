@@ -6,11 +6,7 @@ import {TodoStateModel} from "../../models/todo-state.model";
 @State<TodoStateModel>({
   name: 'TodosState',
   defaults: {
-    currentTodos: [{
-      id: "3231231231",
-      priority: "Low",
-      description: "Test"
-    }],
+    currentTodos: [],
     completedTodos: [{
       id: "3231231231",
       priority: "Low",
@@ -33,6 +29,18 @@ export class TodosState {
       currentTodos: [
         ...state.currentTodos,
         action.payload
+      ]
+    })
+  }
+
+  @Action(TodoActions.SetCurrentTodos)
+  setCurrentTodos(ctx: StateContext<TodoStateModel>, action: TodoActions.SetCurrentTodos) {
+    const state = ctx.getState();
+
+    ctx.setState({
+      ...state,
+      currentTodos: [
+        ...action.payload
       ]
     })
   }

@@ -8,6 +8,13 @@ export namespace TodoActions {
     }
   }
 
+  export class SetCurrentTodos {
+    static readonly type = '[Todo] Set';
+
+    constructor(public payload: Todo[]) {
+    }
+  }
+
   export class Edit {
     static readonly type = '[Todo] Edit';
 
